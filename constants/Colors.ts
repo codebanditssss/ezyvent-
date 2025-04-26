@@ -24,3 +24,25 @@ export const Colors = {
     tabIconSelected: tintColorDark,
   },
 };
+
+export default {
+  primary: '#6B46C1',
+  secondary: '#805AD5',
+  background: '#FFFFFF',
+  text: {
+    dark: '#2D3748',
+    light: '#4A5568',
+    white: '#FFFFFF'
+  },
+  button: {
+    primary: '#6B46C1',
+    disabled: '#A0AEC0',
+  },
+  border: '#E2E8F0',
+  error: '#E53E3E',
+  success: '#38A169',
+  calendar: {
+    event: '#6B46C1',
+    highlight: '#E9D8FD',
+  }
+};

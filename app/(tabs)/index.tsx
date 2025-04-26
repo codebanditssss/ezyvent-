@@ -1,74 +1,294 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import Colors from '../../constants/Colors';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+// Define types for event data
+interface Event {
+  id: string;
+  title: string;
+  date: string;
+  time: string;
+  location: string;
+  attendees: number;
+}
+
+// Sample data for upcoming events
+const upcomingEvents: Event[] = [
+  {
+    id: '1',
+    title: 'Campus Tech Workshop',
+    date: 'Apr 25, 2025',
+    time: '10:00 AM - 2:00 PM',
+    location: 'CS Building, Room 204',
+    attendees: 45,
+  },
+  {
+    id: '2',
+    title: 'Annual Career Fair',
+    date: 'May 10, 2025',
+    time: '9:00 AM - 5:00 PM',
+    location: 'Student Union',
+    attendees: 150,
+  },
+  {
+    id: '3',
+    title: 'Orientation Volunteer Training',
+    date: 'May 15, 2025',
+    time: '3:00 PM - 5:00 PM',
+    location: 'Admin Building, Room 110',
+    attendees: 30,
+  },
+];
+
+const EventCard = ({ event }: { event: Event }) => (
+  <TouchableOpacity style={styles.eventCard}>
+    <View style={styles.eventHeader}>
+      <Text style={styles.eventTitle}>{event.title}</Text>
+      <Ionicons name="chevron-forward" size={20} color={Colors.text.light} />
+    </View>
+    <View style={styles.eventDetails}>
+      <View style={styles.eventDetail}>
+        <Ionicons name="calendar-outline" size={16} color={Colors.primary} />
+        <Text style={styles.eventDetailText}>{event.date}</Text>
+      </View>
+      <View style={styles.eventDetail}>
+        <Ionicons name="time-outline" size={16} color={Colors.primary} />
+        <Text style={styles.eventDetailText}>{event.time}</Text>
+      </View>
+      <View style={styles.eventDetail}>
+        <Ionicons name="location-outline" size={16} color={Colors.primary} />
+        <Text style={styles.eventDetailText}>{event.location}</Text>
+      </View>
+      <View style={styles.eventDetail}>
+        <Ionicons name="people-outline" size={16} color={Colors.primary} />
+        <Text style={styles.eventDetailText}>{event.attendees} attendees</Text>
+      </View>
+    </View>
+  </TouchableOpacity>
+);
 
 export default function HomeScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+        {/* Welcome Section */}
+        <View style={styles.welcomeSection}>
+          <View>
+            <Text style={styles.welcomeText}>Welcome back,</Text>
+            <Text style={styles.userName}>Khushi</Text>
+          </View>
+          <TouchableOpacity style={styles.notificationButton}>
+            <Ionicons name="notifications-outline" size={24} color={Colors.text.dark} />
+          </TouchableOpacity>
+        </View>
+        
+        {/* Quick Actions */}
+        <View style={styles.quickActionsContainer}>
+          <TouchableOpacity style={styles.quickAction}>
+            <View style={[styles.quickActionIcon, { backgroundColor: 'rgba(107, 70, 193, 0.1)' }]}>
+              <Ionicons name="add-circle-outline" size={24} color={Colors.primary} />
+            </View>
+            <Text style={styles.quickActionText}>Create Event</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={styles.quickAction}>
+            <View style={[styles.quickActionIcon, { backgroundColor: 'rgba(237, 137, 54, 0.1)' }]}>
+              <Ionicons name="search-outline" size={24} color="#ED8936" />
+            </View>
+            <Text style={styles.quickActionText}>Find Events</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={styles.quickAction}>
+            <View style={[styles.quickActionIcon, { backgroundColor: 'rgba(56, 161, 105, 0.1)' }]}>
+              <Ionicons name="people-outline" size={24} color="#38A169" />
+            </View>
+            <Text style={styles.quickActionText}>My RSVPs</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={styles.quickAction}>
+            <View style={[styles.quickActionIcon, { backgroundColor: 'rgba(229, 62, 62, 0.1)' }]}>
+              <Ionicons name="calendar-outline" size={24} color="#E53E3E" />
+            </View>
+            <Text style={styles.quickActionText}>Calendar</Text>
+          </TouchableOpacity>
+        </View>
+        
+        {/* Upcoming Events */}
+        <View style={styles.sectionContainer}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Upcoming Events</Text>
+            <TouchableOpacity>
+              <Text style={styles.seeAllText}>See All</Text>
+            </TouchableOpacity>
+          </View>
+          
+          {upcomingEvents.map((event) => (
+            <EventCard key={event.id} event={event} />
+          ))}
+        </View>
+        
+        {/* Stats Summary */}
+        <View style={styles.statsContainer}>
+          <Text style={styles.sectionTitle}>Stats</Text>
+          <View style={styles.statsGrid}>
+            <View style={styles.statCard}>
+              <Text style={styles.statNumber}>12</Text>
+              <Text style={styles.statLabel}>Created</Text>
+            </View>
+            <View style={styles.statCard}>
+              <Text style={styles.statNumber}>8</Text>
+              <Text style={styles.statLabel}>Upcoming</Text>
+            </View>
+            <View style={styles.statCard}>
+              <Text style={styles.statNumber}>213</Text>
+              <Text style={styles.statLabel}>Attendees</Text>
+            </View>
+            <View style={styles.statCard}>
+              <Text style={styles.statNumber}>24</Text>
+              <Text style={styles.statLabel}>Completed</Text>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  safeArea: {
+    flex: 1,
+    backgroundColor: Colors.background,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: Colors.background,
+  },
+  contentContainer: {
+    padding: 16,
+    paddingBottom: 40,
+  },
+  welcomeSection: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 8,
+    marginBottom: 24,
+  },
+  welcomeText: {
+    fontSize: 16,
+    color: Colors.text.light,
+  },
+  userName: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: Colors.text.dark,
+  },
+  notificationButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(0,0,0,0.05)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  quickActionsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 24,
+  },
+  quickAction: {
+    alignItems: 'center',
+  },
+  quickActionIcon: {
+    width: 50,
+    height: 50,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  quickActionText: {
+    fontSize: 12,
+    color: Colors.text.light,
+    textAlign: 'center',
+  },
+  sectionContainer: {
+    marginBottom: 24,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: Colors.text.dark,
+  },
+  seeAllText: {
+    color: Colors.primary,
+    fontWeight: '500',
+  },
+  eventCard: {
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: Colors.border,
+  },
+  eventHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  eventTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: Colors.text.dark,
+  },
+  eventDetails: {
+    gap: 6,
+  },
+  eventDetail: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  eventDetailText: {
+    fontSize: 14,
+    color: Colors.text.light,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  statsContainer: {
+    marginBottom: 24,
+  },
+  statsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginTop: 16,
+  },
+  statCard: {
+    width: '48%',
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    alignItems: 'center',
+  },
+  statNumber: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: Colors.primary,
+    marginBottom: 4,
+  },
+  statLabel: {
+    fontSize: 14,
+    color: Colors.text.light,
   },
 });
